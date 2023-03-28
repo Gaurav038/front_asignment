@@ -3,15 +3,11 @@ import axios from "axios";
 import { BASE_URL } from "../../API";
 import { useNavigate } from "react-router-dom";
 
-const Upload = ({ user }) => {
-  console.log(user);
+const Upload = () => {
   const [name, setName] = useState("");
   const [image, setImage] = useState(null);
 
   const navigate = useNavigate();
-  if (!user) {
-    navigate("/login");
-  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();

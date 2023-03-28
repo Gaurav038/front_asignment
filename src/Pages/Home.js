@@ -5,17 +5,26 @@ import { BASE_URL } from "../API";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-function Home({ user }) {
+function Home() {
   const [word, setWord] = useState("");
   const [result, setResult] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  console.log(user);
   const navigate = useNavigate();
 
-  if (!user) {
-    navigate("/login");
-  }
+  
+  const getAuth = async () => {
+    try {
+      await axios.get(`${BASE_URL}/auth`, {
+        withCredentials: true,
+        credentials: "include",
+      });
+    } catch (error) {
+      console.log(error);
+      navigate("/login", { replace: true });
+    }
+  };
+
   const changePhoto = async () => {
     try {
       setLoading(true);
@@ -34,6 +43,10 @@ function Home({ user }) {
   useEffect(() => {
     changePhoto();
   }, [word]);
+  
+  useEffect(() => {
+    getAuth();
+  }, []);
 
   return (
     <>
